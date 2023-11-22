@@ -67,7 +67,7 @@ class DatePicker extends Component {
                 {
                     toValue: height,
                     duration: duration,
-                    useNativeDriver: true,
+                    useNativeDriver: false,
                 }
             ).start();
         } else {
@@ -76,7 +76,7 @@ class DatePicker extends Component {
                 {
                     toValue: 0,
                     duration: duration,
-                    useNativeDriver: true,
+                    useNativeDriver: false,
                 }
             ).start(() => {
                 this.setState({modalVisible: visible});
@@ -111,7 +111,6 @@ class DatePicker extends Component {
     onPressConfirm() {
         this.datePicked();
         this.setModalVisible(false);
-
         if (typeof this.props.onCloseModal === 'function') {
             this.props.onCloseModal();
         }
@@ -169,7 +168,7 @@ class DatePicker extends Component {
         }
     }
 
-    getTitleElement() {
+    getTitleElement =() =>{
         const {date, placeholder, customStyles, allowFontScaling} = this.props;
 
         if (!date && placeholder) {
@@ -186,7 +185,7 @@ class DatePicker extends Component {
         );
     }
 
-    onDateChange(date) {
+    onDateChange = (event: DateTimePickerEvent, date: Date)=>{
         this.setState({
             allowPointerEvents: false,
             date: date
@@ -258,7 +257,7 @@ class DatePicker extends Component {
             date: this.getDate()
         });
 
-        if (Platform.OS === 'ios') {
+        if (Platform.OS == 'ios') {
             this.setModalVisible(true);
         } else {
 
@@ -401,16 +400,18 @@ class DatePicker extends Component {
                                     >
                                         <View pointerEvents={this.state.allowPointerEvents ? 'auto' : 'none'}>
                                             <DateTimePicker
-                                                date={this.state.date}
+                                                value={this.state.date}
                                                 mode={mode}
                                                 minimumDate={minDate && this.getDate(minDate)}
                                                 maximumDate={maxDate && this.getDate(maxDate)}
-                                                onDateChange={this.onDateChange}
+                                                display={androidMode}
+                                                onChange={this.onDateChange}
                                                 minuteInterval={minuteInterval}
                                                 timeZoneOffsetInMinutes={timeZoneOffsetInMinutes ? timeZoneOffsetInMinutes : null}
                                                 style={[Style.datePicker, customStyles.datePicker]}
                                                 locale={locale}
                                             />
+
                                         </View>
                                         <TouchableComponent
                                             underlayColor={'transparent'}
